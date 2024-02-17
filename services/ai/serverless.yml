@@ -1,0 +1,37 @@
+service: ai
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  environment:
+    MONGO_CONNECTION_STRING: ${ssm:/primary_db_connection_string}
+    OPENAI_API_KEY: ${ssm:/openai_secret_key}
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: "api.${ssm:/primary_domain_name}"
+    certificateArn: ${ssm:/primary_domain_cert_arn}
+    basePath: "ai"
+    createRoute53Record: true
+    createRoute53IPv6Record: true
+    endpointType: "regional"
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: true
+
+functions:
+  generateKeywords:
+    timeout: 30
+    handler: index.generate_keywords
+    logRetentionInDays: 30
+    events:
+      - http:
+          method: post
+          path: /generate_keywords
+          cors:
+            origin: "*"
+            headers: "*"

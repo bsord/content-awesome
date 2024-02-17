@@ -1,0 +1,100 @@
+service: user
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    MONGO_CONNECTION_STRING: ${ssm:/primary_db_connection_string}
+
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: "api.${ssm:/primary_domain_name}"
+    certificateArn: ${ssm:/primary_domain_cert_arn}
+    basePath: "users"
+    createRoute53Record: true
+    createRoute53IPv6Record: true
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: true
+
+functions:
+
+  addUser:
+    timeout: 30
+    handler: index.add_user
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: post
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getUsers:
+    timeout: 30
+    handler: index.get_users
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: get
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getUserById:
+    timeout: 30
+    handler: index.get_user_by_id
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{user_id}
+          method: get
+          request:
+            parameters:
+              paths:
+                user_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  updateUser:
+    timeout: 30
+    handler: index.update_user
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{user_id}
+          method: post
+          request:
+            parameters:
+              paths:
+                user_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  deleteUser:
+    timeout: 30
+    handler: index.delete_user
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{user_id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                user_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
