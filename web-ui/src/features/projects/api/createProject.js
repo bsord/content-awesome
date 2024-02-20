@@ -2,12 +2,18 @@ import { axios } from '@/lib/axios';
 import { queryClient } from '@/lib/react-query';
 import { useMutation } from '@tanstack/react-query';
 
+export const generateProjectTitle = (data) => {
+  return axios.post('/ai/generate_project_title', data);
+};
+
 export const createProject = (data) => {
   return axios.post('/projects', data);
 };
 
 export const createProjectFn = async (data) => {
-  console.log(data);
+  //override title
+  const generatedTitle = await generateProjectTitle({input:data.description})
+  data = {...data, title: generatedTitle.data}
   const { project } = await createProject(data);
   return project;
 };

@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
-const JobSchema = new mongoose.Schema({
+const ProjectSchema = new mongoose.Schema({
   title: 'string',
-}, { collection: 'jobs' });
+  description: 'string'
+}, { collection: 'projects' });
 
-const Job = mongoose.model('job', JobSchema);
+const Project = mongoose.model('project', ProjectSchema);
 
-module.exports = Job;
+module.exports = Project;

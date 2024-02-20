@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { ListItem, Typography } from '../../../components/Elements';
 import ProjectsListItemEditor from './ProjectsListItemEditor';
+import { useNavigate } from 'react-router-dom'
 
 const ProjectListItem = (props) => {
+  const navigate = useNavigate()
   const { project } = props;
   const [editMode, setEditMode] = useState(false);
 
@@ -18,7 +20,8 @@ const ProjectListItem = (props) => {
       ) : (
         <ListItem
           onClick={() => {
-            setEditMode(true);
+            navigate(`/projects/${project._id}`)
+            //setEditMode(true);
           }}
         >
           <Typography variant="h5">{project.title}</Typography>

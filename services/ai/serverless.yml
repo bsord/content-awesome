@@ -35,3 +35,25 @@ functions:
           cors:
             origin: "*"
             headers: "*"
+  generateProjectTitle:
+    timeout: 30
+    handler: index.generate_project_title
+    logRetentionInDays: 30
+    events:
+      - http:
+          method: post
+          path: /generate_project_title
+          cors:
+            origin: "*"
+            headers: "*"
+  generateSearchTerms:
+    timeout: 30
+    handler: index.generate_search_terms
+    logRetentionInDays: 30
+    events:
+      - http:
+          method: post
+          path: /generate_search_terms
+          cors:
+            origin: "*"
+            headers: "*"

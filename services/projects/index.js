@@ -17,6 +17,7 @@ module.exports.add_project = async (event) => {
   // insert project to database
   const project = await Project.create({
     title: body?.title || 'test project title',
+    description: body?.description || 'test project description'
   })
 
   return {
@@ -60,7 +61,7 @@ module.exports.get_project_by_id = async (event) => {
     headers: headers,
     body: JSON.stringify({
       message: `here is your project: ${project_id}`,
-      project: project
+      data: project
     }),
   }
 }

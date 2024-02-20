@@ -3,23 +3,26 @@ import { Input } from '../../../components/Elements'
 
 import { LinearProgress } from '../../../components/Elements'
 import { useCreateProject } from '../api/createProject'
+import { useNavigate } from 'react-router-dom'
 
 const AddProject = () => {
   const { mutate: createProject, isPending, error } = useCreateProject()
 
-  const [title, setTitle] = useState('')
-
+  const [description, setDescription] = useState('')
+  const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (title !== '') {
+    if (description !== '') {
       createProject(
         {
-          title: title,
+          title: 'placeholder',
+          description: description
         },
         {
-          onSuccess: () => {
+          onSuccess: (project) => {
             console.log('created project')
-            setTitle('')
+            setDescription('')
+            navigate(`/projects/${project._id}`)
           },
         }
       )
@@ -27,7 +30,7 @@ const AddProject = () => {
   }
 
   const handleChange = (event) => {
-    setTitle(event.currentTarget.value)
+    setDescription(event.currentTarget.value)
   }
 
   return (
@@ -35,14 +38,17 @@ const AddProject = () => {
       onSubmit={(event) => {
         handleSubmit(event)
       }}
+      className='w-full p-2'
     >
       <Input
+        className="h-18"
+        placeholder="breif description of your business"
         id="project"
         label="Project"
         name="project"
         autoComplete="project"
         autoFocus
-        value={title}
+        value={description}
         onChange={(e) => {
           handleChange(e)
         }}

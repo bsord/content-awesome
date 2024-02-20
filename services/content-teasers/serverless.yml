@@ -1,0 +1,97 @@
+service: content-teasers
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  environment:
+    MONGO_CONNECTION_STRING: ${ssm:/primary_db_connection_string}
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: "api.${ssm:/primary_domain_name}"
+    certificateArn: ${ssm:/primary_domain_cert_arn}
+    basePath: "contentTeasers"
+    createRoute53Record: true
+    createRoute53IPv6Record: true
+    endpointType: "regional"
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: true
+
+functions:
+  addContentTeaser:
+    timeout: 30
+    handler: index.add_contentTeaser
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: post
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getContentTeasers:
+    timeout: 30
+    handler: index.get_contentTeasers
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: get
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getContentTeaserById:
+    timeout: 30
+    handler: index.get_contentTeaser_by_id
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{contentTeaser_id}
+          method: get
+          request:
+            parameters:
+              paths:
+                contentTeaser_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  updateContentTeaser:
+    timeout: 30
+    handler: index.update_contentTeaser
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{contentTeaser_id}
+          method: post
+          request:
+            parameters:
+              paths:
+                contentTeaser_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  deleteContentTeaser:
+    timeout: 30
+    handler: index.delete_contentTeaser
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{contentTeaser_id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                contentTeaser_id: true
+          cors: 
+            origin: '*'
+            headers: '*'

@@ -21,7 +21,7 @@ export const RegisterForm = () => {
     }
 
     register.mutate(registration, {
-      onSuccess: () => navigate('/notes'),
+      onSuccess: () => navigate('/projects'),
     })
   }
 

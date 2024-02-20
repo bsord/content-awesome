@@ -19,7 +19,7 @@ export const LoginForm = () => {
       password: data.get('password'),
     }
     login.mutate(credentials, {
-      onSuccess: () => navigate('/notes'),
+      onSuccess: () => navigate('/projects'),
     })
   }
 

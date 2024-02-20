@@ -18,3 +18,22 @@ export const useProjects = (config) => {
     queryFn: getProjectsFn,
   });
 };
+
+export const getProjectById = (id) => {
+  console.log(id)
+  return axios.get(`/projects/${id}`);
+};
+
+export const getProjectByIdFn = async ({queryKey}) => {
+  const [_,projectId] = queryKey
+  const {data} = await getProjectById(projectId);
+  console.log(data)
+  return data;
+};
+
+export const useProjectById = (projectId) => {
+  return useQuery({
+    queryKey: ['projects', projectId],
+    queryFn: getProjectByIdFn,
+  });
+};
