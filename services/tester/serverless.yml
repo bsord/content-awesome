@@ -1,0 +1,100 @@
+service: tester
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    MONGO_CONNECTION_STRING: ${ssm:/primary_db_connection_string}
+
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: "api.${ssm:/primary_domain_name}"
+    certificateArn: ${ssm:/primary_domain_cert_arn}
+    basePath: "testers"
+    createRoute53Record: true
+    createRoute53IPv6Record: true
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: true
+
+functions:
+
+  addTester:
+    timeout: 30
+    handler: index.add_tester
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: post
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getTesters:
+    timeout: 30
+    handler: index.get_testers
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: get
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getTesterById:
+    timeout: 30
+    handler: index.get_tester_by_id
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{tester_id}
+          method: get
+          request:
+            parameters:
+              paths:
+                tester_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  updateTester:
+    timeout: 30
+    handler: index.update_tester
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{tester_id}
+          method: post
+          request:
+            parameters:
+              paths:
+                tester_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  deleteTester:
+    timeout: 30
+    handler: index.delete_tester
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{tester_id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                tester_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
