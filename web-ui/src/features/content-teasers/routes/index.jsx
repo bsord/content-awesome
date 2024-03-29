@@ -8,7 +8,7 @@ export const ContentTeasersRoutes = () => {
 
       <Routes>
         <Route path="/" element={<ContentTeasers />} />
-        <Route path="/contentTeaser/:contentTeaserId" element={<ContentTeaserWorkspace />} />
+        <Route path="/contentTeaser/:contentTeaserId/*" element={<ContentTeaserWorkspace />} />
         <Route path="*" element={<Navigate to="." />} />
       </Routes>
 

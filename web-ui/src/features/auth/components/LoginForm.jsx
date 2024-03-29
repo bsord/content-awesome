@@ -75,7 +75,7 @@ export const LoginForm = () => {
           </Link>
         </div>
 
-        <Button type="submit" disabled={login.isPending}>
+        <Button type="submit" disabled={login.isPending} className="mt-6">
           {login.isPending && <FontAwesomeIcon icon={faSpinner} className="animate-spin" />}
           Sign In
         </Button>

@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom'
 
 const KeywordsListItem = (props) => {
   const navigate = useNavigate()
-  const { keyword, projectId } = props;
+  const { keyword, projectId, active } = props;
   const [editMode, setEditMode] = useState(false);
 
+  var classes = ""
+  if (active) {
+    classes = "bg-gray-400"
+  }
   return (
     <>
       {editMode ? (
@@ -20,7 +24,7 @@ const KeywordsListItem = (props) => {
       ) : (
         <ListItem onClick={()=>{
           navigate(`/projects/${projectId}/keywords/${keyword._id}`)
-        }}>
+        }} className={classes}>
           <Typography variant="h5">{keyword.word}</Typography>
         </ListItem>
       )}

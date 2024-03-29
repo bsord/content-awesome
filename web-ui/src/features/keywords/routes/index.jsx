@@ -8,7 +8,6 @@ export const KeywordsRoutes = () => {
 
       <Routes>
         <Route path="/" element={<Keywords />} />
-        <Route path="/keywords/:keywordId" element={<KeywordWorkspace />} />
         <Route path="/keywords/:keywordId/*" element={<KeywordWorkspace />} />
         <Route path="*" element={<Navigate to="." />} />
       </Routes>

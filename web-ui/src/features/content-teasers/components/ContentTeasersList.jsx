@@ -7,7 +7,7 @@ import ContentTeaserRecommendations from './ContentTeaserRecommendations';
 import AddContentTeaser from './AddContentTeaser';
 
 const ContentTeasersList = () => {
-  const { searchTermId,keywordId } = useParams();
+  const { searchTermId,keywordId,contentTeaserId } = useParams();
   const { data: contentTeasers, isLoading, error } = useContentTeasersBySearchTerm(searchTermId);
 
   if (isLoading) {
@@ -21,7 +21,11 @@ const ContentTeasersList = () => {
     <List>
       <AddContentTeaser keywordId={keywordId}/>
       {contentTeasers?.map((contentTeaser, key) => {
-        return <ContentTeasersListItem key={key} contentTeaser={contentTeaser} />;
+        var active = false
+        if(contentTeaser._id == contentTeaserId){
+          active = true
+        }
+        return <ContentTeasersListItem key={key} contentTeaser={contentTeaser} active={active}/>;
       })}
       <ContentTeaserRecommendations keywordId={keywordId} existingContentTeasers={contentTeasers}/>
     </List>

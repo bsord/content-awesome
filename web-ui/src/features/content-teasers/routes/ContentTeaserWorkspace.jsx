@@ -1,6 +1,7 @@
 import { ContentTeasersView } from '../components/ContentTeasersView';
 import { useParams } from 'react-router-dom';
 import { useContentTeaserById } from '../api/getContentTeaser';
+import {ContentOutlinesRoutes} from '../../content-outlines'
 
 export const ContentTeaserWorkspace = () => {
   const { contentTeaserId } = useParams();
@@ -17,9 +18,13 @@ export const ContentTeaserWorkspace = () => {
 
   return (
     <div>
-      <div>Word: {contentTeaser.term}</div>
-      <div>
-        <ContentTeasersView/>
+      <div className='flex flex-row'>
+        <div>
+          <ContentTeasersView/>
+        </div>
+        <div>
+          <ContentOutlinesRoutes />
+        </div>
       </div>
     </div>
   );

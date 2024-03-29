@@ -17,7 +17,6 @@ export const KeywordWorkspace = () => {
 
   return (
     <div>
-      <div>Word: {keyword.word}</div>
       <div className='flex flex-row'>
         <div>
           <KeywordsView/>

@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { ListItem, Typography } from '../../../components/Elements';
 import SearchTermsListItemEditor from './SearchTermsListItemEditor';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 
 const SearchTermsListItem = (props) => {
   const navigate = useNavigate()
-  const { searchTerm } = props;
+  
+  const { searchTerm, active } = props;
   const [editMode, setEditMode] = useState(false);
 
+  var classes = ""
+  if (active) {
+    classes = "bg-gray-400"
+  }
   return (
     <>
       {editMode ? (
@@ -19,8 +24,9 @@ const SearchTermsListItem = (props) => {
         />
       ) : (
         <ListItem  onClick={()=>{
-          navigate(`searchterms/${searchTerm._id}`)
-        }}>
+          console.log('searchtermid', searchTerm._id)
+          navigate(`../searchterms/${searchTerm._id}`, { replace: true })
+        }}  className={classes}>
           <Typography variant="h5">{searchTerm.term}</Typography>
         </ListItem>
       )}

@@ -57,3 +57,25 @@ functions:
           cors:
             origin: "*"
             headers: "*"
+  generateContentTeasers:
+    timeout: 30
+    handler: index.generate_content_teasers
+    logRetentionInDays: 30
+    events:
+      - http:
+          method: post
+          path: /generate_content_teasers
+          cors:
+            origin: "*"
+            headers: "*"
+  generateContentOutline:
+    timeout: 30
+    handler: index.generate_content_outline
+    logRetentionInDays: 30
+    events:
+      - http:
+          method: post
+          path: /generate_content_outline
+          cors:
+            origin: "*"
+            headers: "*"

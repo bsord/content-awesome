@@ -7,7 +7,7 @@ import SearchTermRecommendations from './SearchTermRecommendations';
 import AddSearchTerm from './AddSearchTerm';
 
 const SearchTermsList = ({keyword}) => {
-  const { keywordId } = useParams();
+  const { keywordId, searchTermId } = useParams();
   const { data: searchTerms, isLoading, error } = useSearchTermsByKeyword(keywordId);
   console.log(searchTerms)
   if (isLoading) {
@@ -21,7 +21,11 @@ const SearchTermsList = ({keyword}) => {
     <List>
       <AddSearchTerm keywordId={keywordId}/>
       {searchTerms?.map((searchTerm, key) => {
-        return <SearchTermsListItem key={key} searchTerm={searchTerm} />;
+        var active = false
+        if(searchTerm._id == searchTermId){
+          active = true
+        }
+        return <SearchTermsListItem key={key} searchTerm={searchTerm} active={active}/>;
       })}
       <SearchTermRecommendations keywordId={keywordId} existingSearchTerms={searchTerms}/>
     </List>

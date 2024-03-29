@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Input } from '../../../components/Elements'
+import { Input, List } from '../../../components/Elements'
 import { Button } from '../../../components/Elements'
 import { useProjectById } from '../../projects/api/getProject'
 import { LinearProgress } from '../../../components/Elements'
@@ -76,9 +76,13 @@ const ContentTeaserRecommendationsGenerator = ({project, keyword, existingConten
       </Button>
       {isPending && <LinearProgress />}
       {error && <span>There was an error</span>}
-      {contentTeasers && contentTeasers.map((contentTeaser)=>{
-        return(<div><ContentTeaserRecommendationsItem contentTeaser={contentTeaser} project_id={project._id}/></div>)
+
+      
+      {contentTeasers && contentTeasers.map((contentTeaser, key)=>{
+        return(<ContentTeaserRecommendationsItem key={key} contentTeaser={contentTeaser} project_id={project._id}/>)
       })}
+      
+
     </div>
   )
 }

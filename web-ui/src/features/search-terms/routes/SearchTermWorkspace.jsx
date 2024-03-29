@@ -23,7 +23,7 @@ export const SearchTermWorkspace = () => {
           <SearchTermsView/>
         </div>
         <div>
-        <ContentTeasersRoutes />
+          <ContentTeasersRoutes />
         </div>
       </div>
     </div>

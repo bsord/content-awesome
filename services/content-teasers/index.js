@@ -16,7 +16,8 @@ module.exports.add_contentTeaser = async (event) => {
 
   // insert contentTeaser to database
   const contentTeaser = await ContentTeaser.create({
-    term: body?.term || 'term',
+    title: body?.title || 'title',
+    teaser: body?.teaser || undefined,
     project_id: body?.project_id,
     searchTerm_id: body?.searchTerm_id || undefined
   })

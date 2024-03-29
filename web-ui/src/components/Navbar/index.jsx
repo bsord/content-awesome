@@ -17,7 +17,6 @@ export const Navbar = () => {
           {user?.email && user.email}
         </div>
         <Button
-        className="mt-0"
           onClick={() => {
             logout.mutate()
           }}

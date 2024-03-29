@@ -1,0 +1,97 @@
+service: content-outlines
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  environment:
+    MONGO_CONNECTION_STRING: ${ssm:/primary_db_connection_string}
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: "api.${ssm:/primary_domain_name}"
+    certificateArn: ${ssm:/primary_domain_cert_arn}
+    basePath: "contentOutlines"
+    createRoute53Record: true
+    createRoute53IPv6Record: true
+    endpointType: "regional"
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: true
+
+functions:
+  addcontentOutline:
+    timeout: 30
+    handler: index.add_contentOutline
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: post
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getcontentOutlines:
+    timeout: 30
+    handler: index.get_contentOutlines
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /
+          method: get
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  getcontentOutlineById:
+    timeout: 30
+    handler: index.get_contentOutline_by_id
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{contentOutline_id}
+          method: get
+          request:
+            parameters:
+              paths:
+                contentOutline_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  updatecontentOutline:
+    timeout: 30
+    handler: index.update_contentOutline
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{contentOutline_id}
+          method: post
+          request:
+            parameters:
+              paths:
+                contentOutline_id: true
+          cors: 
+            origin: '*'
+            headers: '*'
+
+  deletecontentOutline:
+    timeout: 30
+    handler: index.delete_contentOutline
+    logRetentionInDays: 30
+    events:
+      - http:
+          path: /{contentOutline_id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                contentOutline_id: true
+          cors: 
+            origin: '*'
+            headers: '*'

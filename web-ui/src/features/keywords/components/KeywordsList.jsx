@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import AddKeyword from './AddKeyword'
 
 const KeywordsList = () => {
-  const { projectId } = useParams();
+  const { projectId, keywordId } = useParams();
   const { data: keywords, isLoading, error } = useKeywordsByProject(projectId);
 
   if (isLoading) {
@@ -22,8 +22,13 @@ const KeywordsList = () => {
       <AddKeyword/>
       
       {keywords?.map((keyword, key) => {
-        return <KeywordsListItem key={key} keyword={keyword} projectId={projectId}/>;
+        var active = false
+        if(keyword._id == keywordId){
+          active = true
+        }
+        return <KeywordsListItem key={key} keyword={keyword} projectId={projectId} active={active}/>;
       })}
+      
       <KeywordRecommendations existingKeywords={keywords}/>
     </List>
   );

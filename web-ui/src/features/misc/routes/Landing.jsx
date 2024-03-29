@@ -12,6 +12,7 @@ export const Landing = () => {
           onClick={() => {
             navigate('/auth/login')
           }}
+          className="mt-6"
         >
           Sign In
         </Button>

@@ -8,7 +8,6 @@ export const SearchTermsRoutes = () => {
 
       <Routes>
         <Route path="/" element={<SearchTerms />} />
-        <Route path="/searchterms/:searchTermId" element={<SearchTermWorkspace />} />
         <Route path="/searchterms/:searchTermId/*" element={<SearchTermWorkspace />} />
         <Route path="*" element={<Navigate to="." />} />
       </Routes>
