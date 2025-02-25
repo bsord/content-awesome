@@ -1,0 +1,19 @@
+{
+  "name": "content-awesome-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless-domain-manager": "^7.3.3"
+  },
+  "dependencies": {
+    "serverless": "^3.38.0",
+    "serverless-lambda-edge-pre-existing-cloudfront": "^1.2.0",
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
